@@ -149,6 +149,9 @@ class AuthController extends BaseController
 	 */
 	public function actionAdmindelete()
 	{
+		//检查权限
+		$this->CheckAuth();
+		
 		if(Yii::$app->request->isGet){
 			$get = Yii::$app->request->get();
 				
@@ -290,6 +293,9 @@ class AuthController extends BaseController
 	 */
 	public function actionRoledelete()
 	{
+		//检查权限
+		$this->CheckAuth();
+		
 		if(Yii::$app->request->isGet){
 			$get = Yii::$app->request->get();
 			
@@ -336,6 +342,9 @@ class AuthController extends BaseController
 	
 	
 	
+	/**
+	 * 重置密码 
+	 */
 	public function actionResetpassword()
 	{
 		$id = Yii::$app->request->get('id');
