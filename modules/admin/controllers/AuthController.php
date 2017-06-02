@@ -81,7 +81,6 @@ class AuthController extends BaseController
 		
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->post();
-				
 			if($model->addAdmin($post)){
 				MyFunction::showMessage(Yii::t('app','添加成功'),Url::to('/admin/auth/adminadd'));
 			}

@@ -27,9 +27,14 @@ class LoginController extends Controller
 	 */
 	public function actionLogin()
 	{
-		if(!empty(Yii::$app->admin->identity)){
+// 		if(!empty(Yii::$app->admin->identity)){
+// 			$this->redirect(['index/index']);
+// 		}
+
+		if (!Yii::$app->admin->isGuest) {
 			$this->redirect(['index/index']);
 		}
+		
 		
 		//记录登录前打开的页面
 		MyUrl::SetUrlCookie();

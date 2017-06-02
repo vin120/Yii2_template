@@ -35,9 +35,11 @@ $config = [
     	'admin' => [
     		'class' => '\yii\web\User',
     		'identityClass' => 'app\modules\admin\models\Admin',
+    		'identityCookie' => ['name' => '__admin_identity', 'httpOnly' => true],
    			'enableAutoLogin' => true,
   			'enableSession' => true,
-  			'loginUrl' => ['/admin/site/login'],
+    		'idParam' => '__admin',
+  			'loginUrl' => ['/admin/login/login'],
     	],
     		
     		

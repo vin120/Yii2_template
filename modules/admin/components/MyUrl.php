@@ -21,7 +21,7 @@ class MyUrl
 			$cookies->add(new \yii\web\Cookie([
 					'name' => 'my_reffer_url',
 					'value' => $reffer_url,
-					'expire' =>time() + 3600 * 6,
+					'expire' =>time() + 3600,
 			]));
 		}
 	}

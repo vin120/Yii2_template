@@ -8,6 +8,7 @@
     ThemeAssetExtra::register($this);
     $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';   
     $this->title = Yii::t("app", "管理员列表");
+    
 ?>
 
 <div class="page-content">

@@ -9,11 +9,13 @@ use app\modules\admin\models\AdminRole;
 
 class Admin extends ActiveRecord implements IdentityInterface
 {
-	public $rememberMe = false;
+	
 	public $new_password;
 	public $re_password;
+	public $rememberMe = false;
 	
-	private $_user;
+	
+	private $_user = false;
 	
 	public static function tableName()
 	{
@@ -49,8 +51,8 @@ class Admin extends ActiveRecord implements IdentityInterface
 			[['re_password'],'compare','compareAttribute'=>'new_password','message'=>Yii::t('app', '两次密码不一致'),'on'=>['changepassword']],
 			[['re_password'],'compare','compareAttribute'=>'admin_password','message'=>Yii::t('app','两次密码不一致'),'on'=>['addadmin']],
 			[['admin_password'],'validatePassword','on'=>['login','changepassword']],
-			[['new_password'],'string','length'=>[6,12],'message'=>Yii::t('app', '密码为6-12位'),'on'=>['changepassword']],
-			[['admin_name','admin_password','re_password'],'string','length'=>[6,12],'message'=>Yii::t('app', '密码为6-12位'),'on'=>['addadmin']],
+			[['new_password'],'string','length'=>[6,12],'tooLong'=>Yii::t('app', '密碼最多爲12位'),'tooShort'=>Yii::t('app', '密碼最少爲6位'),'on'=>['changepassword']],
+			[['admin_name','admin_password','re_password'],'string','length'=>[6,12],'tooLong'=>Yii::t('app', '最多爲12位'),'tooShort'=>Yii::t('app', '最少爲6位'),'on'=>['addadmin']],
 			[['admin_real_name','login_ip','login_time','role_id','admin_status'],'safe'],
 		];
 	}
@@ -79,6 +81,9 @@ class Admin extends ActiveRecord implements IdentityInterface
 		}
 	}
 	
+	/**
+	 * 验证用户名是否存在 
+	 */
 	public function validateAdminName()
 	{
 		$admin_name = self::find()->where('admin_id = :admin_id',[':admin_id'=>$this->admin_id])->one()['admin_name'];
@@ -122,8 +127,8 @@ class Admin extends ActiveRecord implements IdentityInterface
 	{
 		$this->scenario = "addadmin";
 
-		$data['Admin'] = $post;
 		
+		$data['Admin'] = $post;
 		//$this->load($data)  $data必须封装成一个数组,而且数组必须以$data['xxx'][] 存在，其中xxx必须以model名字相同
 		if ($this->load($data) && $this->save()) {
 			return true;
@@ -239,7 +244,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-    	
+    	return "admin";
     }
     
     /**
@@ -251,7 +256,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-    	
+    	return $authKey == "admin";
     }
     
     
@@ -272,7 +277,7 @@ class Admin extends ActiveRecord implements IdentityInterface
    	 */
    	protected function getUser()
    	{
-   		if ($this->_user === null) {
+   		if ($this->_user === false) {
    			$this->_user = Admin::findByUsername($this->admin_name);
    		}
    	
